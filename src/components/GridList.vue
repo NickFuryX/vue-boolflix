@@ -5,8 +5,10 @@
       <ul>
         <li v-for="item in items" :key="item.id">
           id: {{ item.id }}<br />
-          titolo originale: {{ item.original_title }}<br />
-          titolo: {{ item.title }}<br />
+          titolo originale:
+          {{ item.original_title ? item.original_title : item.original_name
+          }}<br />
+          titolo: {{ item.title ? item.title : item.name }}<br />
           lingua originale:
           <country-flag
             v-if="
@@ -18,12 +20,8 @@
             size="small"
           /><br />
           voto: {{ item.vote_average }}<br />
-          <img
-          :src="apiImgPath + item.poster_path"
-          alt=""
-        />
+          <img :src="apiImgPath + item.poster_path" alt="" />
         </li>
-        
       </ul>
     </div>
   </section>
@@ -48,15 +46,11 @@ export default {
     };
   },
   computed: {
-    // mysearch(){
-    //     return state.search
-    // }
+    // starFunction(voto) {
+    //   return voto;
+    // },
   },
-  methods: {
-    // leggi(){
-    //     actions.setSearch('aaaaa')
-    // }
-  },
+  methods: {},
 };
 </script>
 
