@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <h1 class="display-6">Boolflix</h1>
+      <h1 class="display-6 text-white text-center">Boolflix</h1>
       <search-bar @performSearch="search" />
     </header>
     <main>
@@ -66,6 +66,7 @@ export default {
       this.loadingSeries = true;
       this.getMovies(queryParams);
       this.getSeries(queryParams);
+      
     },
     getSeries(queryParams) {
       axios
