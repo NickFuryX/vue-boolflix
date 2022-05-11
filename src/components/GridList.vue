@@ -1,18 +1,31 @@
 <template>
   <section>
     <h2>{{ title }}</h2>
-    <ul>
-      <li v-for="item in items" :key="item.id">
-        id: {{ item.id }}<br />
-        titolo originale: {{ item.original_title }}<br />
-        titolo: {{ item.title }}<br />
-        <!-- lingua originale: {{ item.original_language }}<br /> -->
-        lingua originale: <country-flag :country='item.original_language' size='small'/><br />
+    <div>
+      <ul>
+        <li v-for="item in items" :key="item.id">
+          id: {{ item.id }}<br />
+          titolo originale: {{ item.original_title }}<br />
+          titolo: {{ item.title }}<br />
+          lingua originale:
+          <country-flag
+            v-if="
+              item.original_language === 'en'
+                ? (item.original_language = 'gb')
+                : (item.original_language = item.original_language)
+            "
+            :country="item.original_language"
+            size="small"
+          /><br />
+          voto: {{ item.vote_average }}<br />
+          <img
+          :src="apiImgPath + item.poster_path"
+          alt=""
+        />
+        </li>
         
-
-        voto: {{ item.vote_average }}<br />
-      </li>
-    </ul>
+      </ul>
+    </div>
   </section>
 </template>
 
@@ -30,7 +43,9 @@ export default {
     title: String,
   }, //['items','loader'],
   data() {
-    return {};
+    return {
+      apiImgPath: "https://image.tmdb.org/t/p/w342",
+    };
   },
   computed: {
     // mysearch(){

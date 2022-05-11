@@ -33,6 +33,14 @@ export default {
     }
   },
   methods:{
+    chageUk(){
+      if(this.movies.original_language === 'en'){
+        this.movies.original_language == 'gb'
+        console.log('lingua letta');
+      } else{
+        console.log('non ha funzionato');
+      }
+    },
     getMovies(queryParams){
       axios.get(this.apiPath+'movie', queryParams).then((res)=>{
         //console.log(res.data.results)
@@ -40,10 +48,11 @@ export default {
         this.loading = false;
       }).catch((error)=>{
         console.log(error);
-      })
+      });
+      this.chageUk(this.movies)
+
     },
      search(text){
-      //console.log(text);
        const queryParams = {
         params:{
           api_key: this.apiKey,
