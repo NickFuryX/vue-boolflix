@@ -1,54 +1,75 @@
 <template>
-  <div>
-    <searc-bar-component @searchText="searchFunction" />
-    <main-component />
-    <div>
-      <button>prova</button>
-      <ul>
-        <li v-for="item in findedFilm" :key="item.id">
-          {{ item }}
-        </li>
-      </ul>
-    </div>
+  <div id="app">
+    <header>
+      <h1 class="display-6">Boolflix</h1>
+      <search-bar @performSearch="search" />
+    </header>
+    <main>
+      <grid-list :items="movies" title="Movies" :loader="loading" />
+      <grid-list :items="series" title="Series" :loader="loadingSeries" />
+    </main>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import MainComponent from "./components/MainComponent.vue";
-import SearcBarComponent from "./components/SearcBarComponent.vue";
+import GridList from './components/GridList.vue'
+import SearchBar from './components/SearchBar.vue'
+import axios from 'axios'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    SearcBarComponent,
-    MainComponent,
+    SearchBar,
+    GridList
   },
-  data() {
-    return {
-      apiURL: "https://api.themoviedb.org/3/search/",
-      apiKey: "84fac8a877bc617c11655d0d1ee8494c",
-      findedFilm: [],
-    };
+  data(){
+    return{
+      apiKey: 'e99307154c6dfb0b4750f6603256716d',
+      apiPath: 'https://api.themoviedb.org/3/search/',
+      movies:[],
+      series:[],
+      loading: false,
+      loadingSeries: false
+    }
   },
-  methods: {
-    searchFunction() {
-      let paramsObj = {
-        params: {
-          language: "it-IT",
-          api_key: this.apiKey,
-          query: this.text, //////mettere inputText
-        },
-      };
-      axios.get(this.apiURL + "movie/", paramsObj).then((res) => {
-        this.findedFilm = res.data.results;
-        console.log(this.findedFilm);
-      });
+  methods:{
+    getMovies(queryParams){
+      axios.get(this.apiPath+'movie', queryParams).then((res)=>{
+        //console.log(res.data.results)
+        this.movies = res.data.results;
+        this.loading = false;
+      }).catch((error)=>{
+        console.log(error);
+      })
     },
-  },
-};
+     search(text){
+      //console.log(text);
+       const queryParams = {
+        params:{
+          api_key: this.apiKey,
+          language: 'it-IT',
+          query: text
+        }
+      }
+      this.loading = true;
+      this.loadingSeries = true;
+      this.getMovies(queryParams);
+      this.getSeries(queryParams);
+    },
+    getSeries(queryParams){
+      axios.get(this.apiPath+'tv', queryParams).then((res)=>{
+        //console.log(res.data.results)
+        this.series = res.data.results;
+        this.loadingSeries = false;
+      }).catch((error)=>{
+        console.log(error);
+      })
+    },
+
+  }
+ }
 </script>
 
 <style lang="scss">
-@import "./style/generals.scss";
+@import "./styles/general.scss";
 </style>
