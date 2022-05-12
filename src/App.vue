@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      <h1 class="display-6 text-white text-center">Boolflix</h1>
+      <h1 class="display-6 css-3d-text text-center">BOOLFLIX</h1>
       <search-bar @performSearch="search" />
     </header>
     <main>
@@ -33,7 +33,6 @@ export default {
     };
   },
   methods: {
-    
     // chageUk(){
     //   if(this.movies.original_language === 'en'){
     //     this.movies.original_language == 'gb'
@@ -66,7 +65,6 @@ export default {
       this.loadingSeries = true;
       this.getMovies(queryParams);
       this.getSeries(queryParams);
-      
     },
     getSeries(queryParams) {
       axios
@@ -86,4 +84,16 @@ export default {
 
 <style lang="scss">
 @import "./styles/general.scss";
+.css-3d-text {
+  font-size: 92px;
+  color: #d12323;
+  font-family: Lucida Console;
+  text-shadow: 0px 0px 0 rgb(200, 26, 26), 1px 1px 0 rgb(190, 16, 16),
+    2px 2px 0 rgb(181, 7, 7), 3px 3px 0 rgb(172, -2, 0),
+    4px 4px 0 rgb(162, -12, 0), 5px 5px 0 rgb(153, -21, 0),
+    6px 6px 0 rgb(144, -30, 0), 7px 7px 0 rgb(134, -40, 0),
+    8px 8px 0 rgb(125, -49, 0), 9px 9px 0 rgb(116, -58, 0),
+    10px 10px 9px rgba(0, 0, 0, 0.6), 10px 10px 1px rgba(0, 0, 0, 0.5),
+    0px 0px 9px rgba(0, 0, 0, 0.2);
+}
 </style>
