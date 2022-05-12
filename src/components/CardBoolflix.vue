@@ -64,7 +64,7 @@ export default {
     },
     imgFunction() {
       if (this.cardItem.poster_path === null) {
-        return require('../assets/img/fotoNotFound.jpg')
+        return require("../assets/img/fotoNotFound.jpg");
       } else {
         return this.apiImgPath + this.localItem.poster_path;
       }
@@ -74,7 +74,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .my-card {
   cursor: pointer;
   width: calc((100% - 120px) / 5);
@@ -90,11 +90,10 @@ export default {
   }
   &:hover .info-card {
     display: block;
-    overflow-y: hidden;
   }
 
   border-radius: 5px;
-  position: relative;
+  //   position: relative;
 
   img {
     width: 95%;
@@ -113,10 +112,24 @@ li {
   color: #ffd700;
 }
 .info-card {
-  widows: 95%;
+  width: 95%;
+  height: 100%;
   padding: 5px;
-  position: absolute;
+  //   position: absolute;
   display: none;
+  overflow-y: auto;
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
 }
 
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: #cecece;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(176, 50, 50);
+}
 </style>
