@@ -64,10 +64,9 @@ export default {
     },
     imgFunction() {
       if (this.cardItem.poster_path === null) {
-        // return '/assets/fotoNotFound.jpg'
-        return "https://picsum.photos/200";
+        return require('../assets/img/fotoNotFound.jpg')
       } else {
-        return this.apiImgPath + this.cardItem.poster_path;
+        return this.apiImgPath + this.localItem.poster_path;
       }
     },
   },
