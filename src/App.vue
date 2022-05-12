@@ -1,10 +1,17 @@
 <template>
   <div id="app">
+    
     <header>
       <h1 class="display-6 css-3d-text text-center">BOOLFLIX</h1>
       <search-bar @performSearch="search" />
     </header>
     <main>
+      <semipolar-spinner
+      v-if="loading"
+      :animation-duration="2000"
+      :size="500"
+      color="#ff1d5e"
+    />
       <grid-list :items="movies" title="Movies" :loader="loading" />
       <grid-list :items="series" title="Series" :loader="loadingSeries" />
     </main>
@@ -14,6 +21,8 @@
 <script>
 import GridList from "./components/GridList.vue";
 import SearchBar from "./components/SearchBar.vue";
+import { SemipolarSpinner } from "epic-spinners";
+
 import axios from "axios";
 
 export default {
@@ -21,6 +30,7 @@ export default {
   components: {
     SearchBar,
     GridList,
+    SemipolarSpinner,
   },
   data() {
     return {
