@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    
     <header>
       <h1 class="display-6 css-3d-text text-center">BOOLFLIX</h1>
-      <search-bar @performSearch="search" />
     </header>
     <main>
       <semipolar-spinner
-      v-if="loading"
-      :animation-duration="2000"
-      :size="500"
-      color="#ff1d5e"
-    />
+        v-if="loading"
+        :animation-duration="2000"
+        :size="500"
+        color="#ff1d5e"
+      />
+      <popular-section-film :items="popularFilms" />
+      <popular-section-series :items="popularSeries" />
+      <search-bar @performSearch="search" />
       <grid-list :items="movies" title="Movies" :loader="loading" />
       <grid-list :items="series" title="Series" :loader="loadingSeries" />
     </main>
@@ -24,6 +25,8 @@ import SearchBar from "./components/SearchBar.vue";
 import { SemipolarSpinner } from "epic-spinners";
 
 import axios from "axios";
+import PopularSectionFilm from "./components/PopularSectionFilm.vue";
+import PopularSectionSeries from "./components/PopularSectionSeries.vue";
 
 export default {
   name: "App",
@@ -31,26 +34,30 @@ export default {
     SearchBar,
     GridList,
     SemipolarSpinner,
+    PopularSectionFilm,
+    PopularSectionSeries,
   },
   data() {
     return {
       apiKey: "e99307154c6dfb0b4750f6603256716d",
       apiPath: "https://api.themoviedb.org/3/search/",
+      popularFilmApiPath:
+        "https://api.themoviedb.org/3/movie/popular/?&api_key=84fac8a877bc617c11655d0d1ee8494c&language=it-IT",
+      popularSeriesApiPath:
+        "https://api.themoviedb.org/3/movie/popular/?&api_key=84fac8a877bc617c11655d0d1ee8494c&language=it-IT",
       movies: [],
       series: [],
+      popularFilms: [],
+      popularSeries: [],
       loading: false,
       loadingSeries: false,
     };
   },
+  mounted() {
+    this.getPopularMovies();
+    this.getPopularSeries();
+  },
   methods: {
-    // chageUk(){
-    //   if(this.movies.original_language === 'en'){
-    //     this.movies.original_language == 'gb'
-    //     console.log('lingua letta');
-    //   } else{
-    //     console.log('non ha funzionato');
-    //   }
-    // },
     getMovies(queryParams) {
       axios
         .get(this.apiPath + "movie", queryParams)
@@ -62,6 +69,16 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    getPopularMovies() {
+      axios.get(this.popularFilmApiPath).then((res) => {
+        this.popularFilms = res.data.results;
+      });
+    },
+    getPopularSeries() {
+      axios.get(this.popularSeriesApiPath).then((res) => {
+        this.popularSeries = res.data.results;
+      });
     },
     search(text) {
       const queryParams = {
