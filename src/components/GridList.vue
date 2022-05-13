@@ -1,9 +1,9 @@
 <template>
   <section>
-    <h2 class="text-white">{{ title }}</h2>
+    <!-- <h2 class="text-white">{{ title }}</h2> -->
+    <h2 class="text-white ps-4 py-3" >Risultati:</h2>
     <div class="main-container">
-      <CardBoolflix v-for="item in items" :key="item.id" :cardItem="item"
-      />
+      <CardBoolflix v-for="item in items" :key="item.id" :cardItem="item" />
     </div>
   </section>
 </template>
@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       apiImgPath: "https://image.tmdb.org/t/p/w342",
-      
     };
   },
   computed: {},

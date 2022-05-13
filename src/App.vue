@@ -10,11 +10,11 @@
         :size="500"
         color="#ff1d5e"
       />
+      <search-bar @performSearch="search" />
+      <grid-list :items="typeOfSearch === 'movie' ? movies : series" :loader="loading" />
+      <!-- <grid-list :items="series" title="Series" :loader="loadingSeries" /> -->
       <popular-section-film :items="popularFilms" />
       <popular-section-series :items="popularSeries" />
-      <search-bar @performSearch="search" />
-      <grid-list :items="movies" title="Movies" :loader="loading" />
-      <grid-list :items="series" title="Series" :loader="loadingSeries" />
     </main>
   </div>
 </template>
@@ -51,6 +51,7 @@ export default {
       popularSeries: [],
       loading: false,
       loadingSeries: false,
+      typeOfSearch: "",
     };
   },
   mounted() {
@@ -60,10 +61,11 @@ export default {
   methods: {
     getMovies(queryParams) {
       axios
-        .get(this.apiPath + "movie", queryParams)
+        .get(this.apiPath + this.typeOfSearch, queryParams)
         .then((res) => {
           //console.log(res.data.results)
           this.movies = res.data.results;
+          this.series = res.data.results
           this.loading = false;
         })
         .catch((error) => {
@@ -80,7 +82,7 @@ export default {
         this.popularSeries = res.data.results;
       });
     },
-    search(text) {
+    search(text, type) {
       const queryParams = {
         params: {
           api_key: this.apiKey,
@@ -88,23 +90,24 @@ export default {
           query: text,
         },
       };
+      this.typeOfSearch = type;
       this.loading = true;
       this.loadingSeries = true;
       this.getMovies(queryParams);
-      this.getSeries(queryParams);
+      // this.getSeries(queryParams);
     },
-    getSeries(queryParams) {
-      axios
-        .get(this.apiPath + "tv", queryParams)
-        .then((res) => {
-          //console.log(res.data.results)
-          this.series = res.data.results;
-          this.loadingSeries = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
+    // getSeries(queryParams) {
+    //   axios
+    //     .get(this.apiPath + "tv", queryParams)
+    //     .then((res) => {
+    //       //console.log(res.data.results)
+    //       this.series = res.data.results;
+    //       this.loadingSeries = false;
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
   },
 };
 </script>
